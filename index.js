@@ -5,20 +5,23 @@ function chainMethods(source) {
 		this.value = value;
 	}
 
+	function proxy(fn) {
+		return function() {
+			var args = Array.prototype.slice.call(arguments);
+			var result = fn.apply(source, [this.value].concat(args));
+			return new ChainedMethods(result);
+		}
+	}
+
 	for (var key in source) {
-		var value = source[key];
 
-		if (typeof value === 'function') {
+		if (typeof source[key] === 'function') {
 
-			ChainedMethods.prototype[key] = function () {
-				var args = Array.prototype.slice.call(arguments);
-				var result = value.apply(source, [this.value].concat(args));
-				return new ChainedMethods(result);
-			}
+			ChainedMethods.prototype[key] = proxy(source[key])
 
 		} else {
 
-			ChainedMethods.prototype[key] = value;
+			ChainedMethods.prototype[key] = source[key];
 
 		}
 	}

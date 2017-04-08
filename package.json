@@ -11,5 +11,8 @@
     "email": "dlevett@hotmail.co.uk",
     "url": "http://dlevs.com/"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^19.0.2"
+  }
 }
